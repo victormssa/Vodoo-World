@@ -3,16 +3,7 @@ function Map() {
     <>
       <section className="bg-white dark:bg-[#3a3a3a]">
         <div className="container px-0 py-4 mx-auto">
-          <div className="ml-2">
-            <p className="font-medium text-[#313131] dark:text-yellow-500">
-              Venha nos visitar
-            </p>
-
-            <h1 className="mt-2 text-2xl font-semibold text-gray-800 md:text-3xl dark:text-white">
-              Como chegar?
-            </h1>
-
-          </div>
+          <div className="ml-2"></div>
 
           <div className="grid grid-cols-1 gap-0 mt-10 lg:grid-cols-3">
             <div className="grid grid-cols-3 gap-5 sm:grid-cols-3 lg:grid-cols-1">
@@ -38,10 +29,10 @@ function Map() {
                   Email
                 </h2>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                  Our friendly team is here to help.
+                  Nosso Email para contato.
                 </p>
                 <p className="mt-2 text-sm text-[#313131] dark:text-yellow-400">
-                  hello@merakiui.com
+                  vodooworld@gmail.com
                 </p>
               </div>
 
@@ -104,21 +95,21 @@ function Map() {
                   Seg-Sex das 09:00 às 19:00.
                 </p>
                 <p className="mt-2 text-sm [#313131] dark:text-yellow-400">
-                  +55 (71) 99999-9999
+                  +55 (71) 99279-4134
                 </p>
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-lg lg:col-span-2 h-96 lg:h-auto">
+            <div className="overflow-hidden rounded-lg lg:col-span-2 h-96 lg:h-auto shadow-lg mt-2">
               <iframe
                 width="100%"
                 height="100%"
                 frameBorder="0"
-                title="map"
+                title="mapa"
                 marginHeight={0}
                 marginWidth={0}
                 scrolling="no"
-                src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=-13.006986959033693, -38.46141138176997&amp;ie=UTF8&amp;t=&amp;z=18&amp;iwloc=B&amp;output=embed"
+                src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=pt-BR&amp;q=-13.006986959033693, -38.46141138176997&amp;ie=UTF8&amp;t=&amp;z=18&amp;iwloc=B&amp;output=embed"
               ></iframe>
             </div>
           </div>
