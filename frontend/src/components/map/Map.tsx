@@ -70,7 +70,7 @@ function Map() {
                 </p>
               </div>
 
-              <div className="w-44">
+              <div className="w-40">
                 <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
