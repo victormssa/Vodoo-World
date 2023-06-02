@@ -6,7 +6,7 @@ function HeroHome() {
 
   return (
     <>
-        <div className="w-full bg-center bg-cover h-[35rem] shadow-lg bg-" style={{backgroundImage:
+        <div className="w-full bg-center bg-cover lg:h-[35rem] h-[20rem] shadow-lg bg-" style={{backgroundImage:
             `url(${photo})`,}}>
         <div className="flex items-center justify-center w-full h-full bg-gray-900/40">
             <div className="text-center">
