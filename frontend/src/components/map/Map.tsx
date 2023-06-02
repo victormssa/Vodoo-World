@@ -7,7 +7,7 @@ function Map() {
 
           <div className="grid grid-cols-1 gap-0 mt-10 lg:grid-cols-3">
             <div className="grid grid-cols-3 gap-5 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="w-44">
+              <div className="w-44 hidden lg:block">
                 <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -36,8 +36,8 @@ function Map() {
                 </p>
               </div>
 
-              <div className="w-44 lg:mx-0 mx-3">
-                <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
+              <div className="w-44 lg:mx-0 mx-3 hidden lg:block">
+                <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131] ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -70,7 +70,7 @@ function Map() {
                 </p>
               </div>
 
-              <div className="w-44 ">
+              <div className="w-44 hidden lg:block">
                 <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
