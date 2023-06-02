@@ -92,7 +92,7 @@ function Map() {
                   Telefone
                 </h2>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                  Seg-Sex das 09:00 às 19:00.
+                  Seg-Sex das X às Y.
                 </p>
                 <p className="mt-2 text-sm [#313131] dark:text-yellow-400">
                   +55 (71) 99279-4134
