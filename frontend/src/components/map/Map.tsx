@@ -2,7 +2,7 @@ function Map() {
   return (
     <>
       <section className="bg-white dark:bg-[#3a3a3a]">
-        <div className="container px-0 py-4 mx-auto">
+        <div className="container px-5 py-4 mx-auto">
           <div className="ml-2"></div>
 
           <div className="grid grid-cols-1 gap-0 mt-10 lg:grid-cols-3">
@@ -28,15 +28,15 @@ function Map() {
                 <h2 className="mt-4 text-base font-medium text-[#313131] dark:text-white">
                   Email
                 </h2>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-2 lg:text-sm text-xs text-gray-500 dark:text-gray-400">
                   Nosso Email para contato.
                 </p>
-                <p className="mt-2 text-sm text-[#313131] dark:text-yellow-400">
+                <p className="mt-2 lg:text-sm text-xs text-[#313131] dark:text-yellow-400">
                   vodooworld@gmail.com
                 </p>
               </div>
 
-              <div className="w-44">
+              <div className="w-44 lg:mx-0 mx-3">
                 <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -62,15 +62,15 @@ function Map() {
                 <h2 className="mt-4 text-base font-medium text-[#313131] dark:text-white">
                   Loja 01 - Pituba
                 </h2>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-2 lg:text-sm text-xs text-gray-500 dark:text-gray-400">
                   Dentro do Pituba Mall.
                 </p>
-                <p className="mt-2 text-sm text-[#313131] dark:text-yellow-400">
+                <p className="mt-2 lg:text-sm text-xs text-[#313131] dark:text-yellow-400 w-32">
                   R. Alagoas, 92 - Pituba, Salvador - BA, 43700-000
                 </p>
               </div>
 
-              <div className="w-40">
+              <div className="w-44 ">
                 <span className="inline-block p-3 text-yellow-500 rounded-full bg-[#313131] dark:bg-[#313131]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,10 +91,10 @@ function Map() {
                 <h2 className="mt-4 text-base font-medium text-[#313131] dark:text-white">
                   Telefone
                 </h2>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-2 lg:text-sm text-xs text-gray-500 dark:text-gray-400">
                   Seg-Sex das X às Y.
                 </p>
-                <p className="mt-2 text-sm [#313131] dark:text-yellow-400">
+                <p className="mt-2 lg:text-sm text-xs [#313131] dark:text-yellow-400">
                   +55 (71) 99279-4134
                 </p>
               </div>
