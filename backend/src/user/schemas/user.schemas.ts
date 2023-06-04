@@ -22,6 +22,9 @@ export class User {
   password: string;
 
   @Prop()
+  cellphone: string;
+
+  @Prop()
   category: Permission;
 }
 
