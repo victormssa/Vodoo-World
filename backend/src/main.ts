@@ -8,7 +8,7 @@ async function bootstrap() {
 
     // Inicialização do servidor
     await app.listen(port);
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`Status: 200 OK | Server running on http://localhost:${port}/`);
 
     // Manipulador de sinal para encerrar corretamente o servidor
     process.on('SIGINT', async () => {

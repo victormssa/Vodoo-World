@@ -12,6 +12,10 @@ export class UserService {
   ) {}
 
   async findAll(query: Query): Promise<User[]> {
+    const resPerPage = 10;
+    const currentPage = Number(query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
     const keyword = query.keyword
       ? {
           fullname: {
@@ -21,7 +25,10 @@ export class UserService {
         }
       : {};
 
-    const users = await this.userModel.find({ ...keyword });
+    const users = await this.userModel
+      .find({ ...keyword })
+      .limit(resPerPage)
+      .skip(skip);
     return users;
   }
 
