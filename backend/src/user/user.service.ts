@@ -31,4 +31,8 @@ export class UserService {
       runValidators: true,
     });
   }
+
+  async deleteById(id: string): Promise<User> {
+    return await this.userModel.findByIdAndDelete(id);
+  }
 }
