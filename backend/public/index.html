@@ -2,22 +2,26 @@
 <html>
 
 <head>
-  <title>Vodoo World - Pet Shop</title>
+  <title>Voodoo World - Pet Shop</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', Arial, sans-serif;
       background-color: #f2f2f2;
       text-align: center;
     }
 
     h1 {
       color: #333333;
-      font-size: 24px;
+      font-size: 32px;
+      margin-top: 50px;
     }
 
     h2 {
       color: #666666;
-      font-size: 18px;
+      font-size: 24px;
+      margin-bottom: 30px;
     }
 
     span {
@@ -32,14 +36,61 @@
     h3:hover {
       color: purple;
     }
+
+    .container {
+      width: 600px;
+      margin: 0 auto;
+      padding-top: 50px;
+    }
+
+    .logo {
+      margin-bottom: 20px;
+      width: 200px;
+      height: auto;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
   </style>
 </head>
 
 <body>
-  <h1>Vodoo World - Pet Shop</h1>
-  <h2>Status: <span>200 OK</span> | O Back-End está online e funcional.</h2>
-  <h2>Rotas:</h2>
-  <a href="/auth"><h3>Usuários</h3></a>
+  <div class="container">
+    <img class="logo" src="https://example.com/logo.png" alt="Voodoo World Logo">
+    <h1>Voodoo World - Pet Shop</h1>
+    <h2>Status: <span>200 OK</span> | O Back-End está online e funcional.</h2>
+    <table>
+      <tr>
+        <th>Rota</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>/auth</td>
+        <td>Rota para autenticação de usuários.</td>
+      </tr>
+      <tr>
+        <td>/pets</td>
+        <td>Rota para listar os pets disponíveis.</td>
+      </tr>
+      <tr>
+        <td>/users</td>
+        <td>Rota para gerenciar os usuários do sistema.</td>
+      </tr>
+    </table>
+  </div>
 </body>
 
 </html>
