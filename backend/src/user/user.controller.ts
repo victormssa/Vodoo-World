@@ -7,18 +7,20 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './schemas/user.schemas';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
   @Get()
-  async getAllUsers(): Promise<User[]> {
-    return this.userService.findAll();
+  async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
+    return this.userService.findAll(query);
   }
 
   @Post()
