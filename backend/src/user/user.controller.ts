@@ -14,6 +14,7 @@ import { User } from './schemas/user.schemas';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import mongoose from 'mongoose';
 
 @Controller('users')
 export class UserController {
@@ -32,23 +33,15 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUser(@Param('id') id: string) {
-    try {
-      const user = await this.userService.findById(id);
-      return user;
-    } catch (error) {
-      console.log('Error:', error);
-      if (error instanceof NotFoundException) {
-        return { message: 'User not found.' };
-      }
-      throw error;
-    }
+  async getUser(@Param('id') id: mongoose.Types.ObjectId) {
+    const user = await this.userService.findById(id);
+    return user;
   }
 
   @Put(':id')
   async updateUser(
     @Param('id')
-    id: string,
+    id: mongoose.Types.ObjectId,
     @Body()
     user: UpdateUserDto,
   ): Promise<User> {
@@ -56,16 +49,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: string) {
-    try {
-      const user = await this.userService.deleteById(id);
-      return user;
-    } catch (error) {
-      console.log('Error:', error);
-      if (error instanceof NotFoundException) {
-        return { message: 'User not found.' };
-      }
-      throw error;
-    }
+  async deleteUser(@Param('id') id: mongoose.Types.ObjectId) {
+    const user = await this.userService.deleteById(id);
+    return user;
   }
 }

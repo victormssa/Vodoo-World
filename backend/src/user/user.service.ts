@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User } from './schemas/user.schemas';
 import { InjectModel } from '@nestjs/mongoose';
@@ -41,14 +42,14 @@ export class UserService {
     return res;
   }
 
-  async findById(id: string): Promise<User> {
-    const isValidId = mongoose.isValidObjectId(id);
-
-    const user = await this.userModel.findById(id);
+  async findById(id: Types.ObjectId): Promise<User> {
+    const isValidId = Types.ObjectId.isValid(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter an valid id.');
+      throw new BadRequestException('Please enter a valid ID.');
     }
+
+    const user = await this.userModel.findById(id);
 
     if (!user) {
       throw new NotFoundException('User not found.');
@@ -57,14 +58,14 @@ export class UserService {
     return user;
   }
 
-  async updateById(id: string, user: User): Promise<User> {
+  async updateById(id: mongoose.Types.ObjectId, user: User): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, user, {
       new: true,
       runValidators: true,
     });
   }
 
-  async deleteById(id: string): Promise<User> {
+  async deleteById(id: mongoose.Types.ObjectId): Promise<User> {
     return await this.userModel.findByIdAndDelete(id);
   }
 }
