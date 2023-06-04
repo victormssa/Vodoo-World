@@ -19,13 +19,13 @@
     }
 
     h2 {
-      color: #666666;
+      color: #333333;
       font-size: 24px;
       margin-bottom: 30px;
     }
 
     span {
-      color: greenyellow;
+      color: rgb(0, 183, 0);
     }
 
     a {
@@ -64,12 +64,16 @@
     th {
       background-color: #f2f2f2;
     }
+    
+    .link:hover {
+    font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <img class="logo" src="https://github.com/victormssa/Vodoo-World/blob/main/frontend/src/assets/imgs/logoWhite.jpg?raw=true" alt="Voodoo World Logo">
+    <img class="logo" src="https://github.com/victormssa/Vodoo-World/blob/main/frontend/src/assets/imgs/logoWhite-transformed.png?raw=true" alt="Voodoo World Logo">
     <h1>Voodoo World - Pet Shop</h1>
     <h2>Status: <span>200 OK</span> | O Back-End está online e funcional.</h2>
     <table>
@@ -78,15 +82,15 @@
         <th>Descrição</th>
       </tr>
       <tr>
-        <td>/auth</td>
+        <td class="link"><a href="/auth">/auth</a></td>
         <td>Rota para autenticação de usuários.</td>
       </tr>
       <tr>
-        <td>/pets</td>
+        <td class="link"><a href="">/pets</a></td>
         <td>Rota para listar os pets disponíveis.</td>
       </tr>
       <tr>
-        <td>/users</td>
+        <td class="link"><a href="">/users</a></td>
         <td>Rota para gerenciar os usuários do sistema.</td>
       </tr>
     </table>
