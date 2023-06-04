@@ -24,5 +24,5 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
-  readonly category: Permission;
+  readonly permission: Permission;
 }

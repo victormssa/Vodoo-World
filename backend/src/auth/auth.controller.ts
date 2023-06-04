@@ -3,38 +3,46 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 import { User } from './schemas/user.schemas';
-import { CreateUserDto } from './dto/create-user.dto';
+import { SignUpDto } from './dto/signup-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
 import mongoose from 'mongoose';
+import { LoginDto } from './dto/login.dto';
 
-@Controller('users')
-export class UserController {
-  constructor(private userService: UserService) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
   @Get()
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
-    return this.userService.findAll(query);
+    return this.authService.findAll(query);
   }
 
-  @Post()
-  async createUser(
+  @Post('/signup')
+  async signUp(
     @Body()
-    user: CreateUserDto,
-  ): Promise<User> {
-    return this.userService.create(user);
+    signUpDto: SignUpDto,
+  ): Promise<{ token: string }> {
+    return this.authService.signUp(signUpDto);
+  }
+
+  @Get('/login')
+  async login(
+    @Body()
+    loginDto: LoginDto,
+  ): Promise<{ token: string }> {
+    return this.authService.login(loginDto);
   }
 
   @Get(':id')
   async getUser(@Param('id') id: mongoose.Types.ObjectId) {
-    const user = await this.userService.findById(id);
+    const user = await this.authService.findById(id);
     return user;
   }
 
@@ -45,12 +53,12 @@ export class UserController {
     @Body()
     user: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.updateById(id, user);
+    return this.authService.updateById(id, user);
   }
 
   @Delete(':id')
   async deleteUser(@Param('id') id: mongoose.Types.ObjectId) {
-    const user = await this.userService.deleteById(id);
+    const user = await this.authService.deleteById(id);
     return user;
   }
 }

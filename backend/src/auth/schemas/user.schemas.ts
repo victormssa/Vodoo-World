@@ -9,13 +9,13 @@ export enum Permission {
   timestamps: true,
 })
 export class User {
-  @Prop()
+  @Prop({ unique: [true, 'Duplicated username entered'] })
   username: string;
 
   @Prop()
   fullname: string;
 
-  @Prop()
+  @Prop({ unique: [true, 'Duplicated email entered'] })
   email: string;
 
   @Prop()
@@ -25,7 +25,7 @@ export class User {
   cellphone: string;
 
   @Prop()
-  category: Permission;
+  permission: Permission;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
 import * as mongoose from 'mongoose';
@@ -9,11 +10,17 @@ import { User } from './schemas/user.schemas';
 import { InjectModel } from '@nestjs/mongoose';
 import { Query } from 'express-serve-static-core';
 
+import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+import { SignUpDto } from './dto/signup-user.dto';
+import { LoginDto } from './dto/login.dto';
+
 @Injectable()
-export class UserService {
+export class AuthService {
   constructor(
     @InjectModel(User.name)
     private userModel: mongoose.Model<User>,
+    private jwtService: JwtService,
   ) {}
 
   async findAll(query: Query): Promise<User[]> {
@@ -37,9 +44,44 @@ export class UserService {
     return users;
   }
 
-  async create(user: User): Promise<User> {
-    const res = await this.userModel.create(user);
-    return res;
+  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+    const { username, fullname, email, password, cellphone, permission } =
+      signUpDto;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await this.userModel.create({
+      username,
+      fullname,
+      email,
+      password: hashedPassword,
+      cellphone,
+      permission,
+    });
+
+    const token = this.jwtService.sign({ id: user._id });
+
+    return { token };
+  }
+
+  async login(loginDto: LoginDto): Promise<{ token: string }> {
+    const { username, password } = loginDto;
+
+    const user = await this.userModel.findOne({ username });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
+
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatched) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
+
+    const token = this.jwtService.sign({ id: user._id });
+
+    return { token };
   }
 
   async findById(id: Types.ObjectId): Promise<User> {

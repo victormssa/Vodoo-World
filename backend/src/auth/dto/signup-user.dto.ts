@@ -1,7 +1,13 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { Permission } from '../schemas/user.schemas';
 
-export class CreateUserDto {
+export class SignUpDto {
   @IsNotEmpty()
   @IsString()
   readonly username: string;
@@ -11,11 +17,12 @@ export class CreateUserDto {
   readonly fullname: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsEmail({}, { message: 'Please enter correct email.' })
   readonly email: string;
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(8)
   readonly password: string;
 
   @IsString()
@@ -23,5 +30,5 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsEnum(Permission, { message: 'Please enter correct permission.' })
-  readonly category: Permission;
+  readonly permission: Permission;
 }
