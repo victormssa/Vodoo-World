@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 
-async function bootstrap(): Promise<void> {
+async function bootstrap() {
   try {
     const port = 3000; // Porta do servidor
-    const app: INestApplication = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
 
     app.enableCors();
