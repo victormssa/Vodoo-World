@@ -37,17 +37,6 @@ const LoginForm: React.FC = () => {
     }
   }, [navigate]);
 
-  const handleRememberMe = () => {
-    setRememberMe(!rememberMe);
-    if (!rememberMe) {
-      const credentials: Credentials = { username: username, password: password };
-      localStorage.setItem("credentials", JSON.stringify(credentials));
-    } else {
-      localStorage.removeItem("credentials");
-    }
-    setRememberMe(!rememberMe);
-  };
-
   useEffect(() => {
     const savedCredentials = localStorage.getItem("credentials");
     if (savedCredentials) {
@@ -62,12 +51,33 @@ const LoginForm: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (rememberMe) {
+      const credentials: Credentials = { username, password };
+      localStorage.setItem("credentials", JSON.stringify(credentials));
+    } else {
+      localStorage.removeItem("credentials");
+    }
+  }, [rememberMe, username, password]);
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
+  };
+
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newItem: Credentials = { username: username, password };
     try {
       const url = `https://api-vodoo-world.vercel.app/auth/login`;
-  
+
       const response = await axios.post(url, newItem);
       const data = response.data;
       localStorage.setItem("token", data.token);
@@ -75,7 +85,7 @@ const LoginForm: React.FC = () => {
       if (token) {
         const decodedToken: DecodedToken = jwt_decode(token);
         const currentTime = Date.now() / 1000;
-  
+
         if (decodedToken.exp > currentTime) {
           navigate("/user/home");
         }
@@ -88,6 +98,7 @@ const LoginForm: React.FC = () => {
       console.error("Erro ao fazer login:", error);
     }
   };
+
 
   return (
     <>
@@ -127,7 +138,7 @@ const LoginForm: React.FC = () => {
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
               placeholder="Usuário"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUsernameChange}
             />
           </div>
 
@@ -152,7 +163,7 @@ const LoginForm: React.FC = () => {
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
               placeholder="●●●●●●●●"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
           </div>
 
