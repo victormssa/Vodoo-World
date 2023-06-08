@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import cors from 'cors';
 
 async function bootstrap() {
   try {
@@ -10,12 +9,11 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
 
     // Configuração do CORS
-    app.use(
-      cors({
-        origin: ['http://localhost:5173', 'https://vodooworld.vercel.app'],
-        credentials: true,
-      }),
-    );
+    app.enableCors({
+      origin: ['http://localhost:5173', 'https://vodooworld.vercel.app'],
+      methods: 'GET, PUT, POST, DELETE',
+      allowedHeaders: 'Content-Type, Authorization',
+    });
 
     // Inicialização do servidor
     await app.listen(port);
