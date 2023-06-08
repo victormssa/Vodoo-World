@@ -40,11 +40,12 @@ const LoginForm: React.FC = () => {
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
     if (!rememberMe) {
-      const credentials: Credentials = { username: username, password };
+      const credentials: Credentials = { username: username, password: password };
       localStorage.setItem("credentials", JSON.stringify(credentials));
     } else {
       localStorage.removeItem("credentials");
     }
+    setRememberMe(!rememberMe);
   };
 
   useEffect(() => {
