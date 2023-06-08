@@ -18,13 +18,13 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('/auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
   @Get()
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
     return this.authService.findAll(query);
   }
 
-  @Post('/signup')
+  @Post('signup')
   async signUp(
     @Body()
     signUpDto: SignUpDto,
@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  @Post('/login')
+  @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     return this.authService.login(loginDto);
   }
