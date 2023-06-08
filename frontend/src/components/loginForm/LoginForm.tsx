@@ -2,7 +2,7 @@ import logoWhite from "../../assets/imgs/logoMinWhite.jpg";
 import logoBlack from "../../assets/imgs/logoMinBlack.jpg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
 
 interface DecodedToken {
@@ -18,7 +18,8 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorFields, setErrorFields] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,17 +97,21 @@ const LoginForm: React.FC = () => {
         setUsername("");
         setErrorMessage(data.message); // Definir a mensagem de erro
       }
-    } catch (error: any) {
+    } catch (error: any | AxiosError) {
       console.error("Erro ao fazer login:", error);
 
-      if (error.response) {
-        if (error.response.status === 401) {
-          setErrorMessage("Usuário ou senha incorretos"); // Definir a mensagem de erro
-        } else if (error.response.status === 0) {
-          setErrorMessage("Erro de CORS"); // Definir a mensagem de erro
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          if (axiosError.response.status === 401) {
+            setErrorMessage("Usuário ou senha incorretos");
+            setErrorFields(["username", "password"]); // Definir os campos de erro
+          } else if (axiosError.response.status === 0) {
+            setErrorMessage("Erro de CORS");
+          }
         }
       } else {
-        setErrorMessage("Erro ao fazer login"); // Definir a mensagem de erro genérica
+        setErrorMessage("Erro ao fazer login");
       }
     }
   };
@@ -143,7 +148,7 @@ const LoginForm: React.FC = () => {
             </label>
             <input
               type="text"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className={`input ${errorFields.includes("username") && "error"}`}
               placeholder="Usuário"
               value={username}
               onChange={handleUsernameChange}
@@ -168,7 +173,7 @@ const LoginForm: React.FC = () => {
 
             <input
               type="password"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className={`input ${errorFields.includes("password") && "error"}`}
               placeholder="●●●●●●●●"
               value={password}
               onChange={handlePasswordChange}
