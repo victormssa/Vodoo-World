@@ -258,7 +258,7 @@ const LoginForm: React.FC = () => {
             Não possui uma conta?{" "}
           </span>
           <a
-            href="#"
+            href="/signIn"
             className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
           >
             Cadastre-se
