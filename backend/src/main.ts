@@ -10,8 +10,8 @@ async function bootstrap() {
 
     // Configuração do CORS
     app.enableCors({
-      origin: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      origin: ['http://localhost:5173', 'https://vodooworld.vercel.app'],
+      methods: '*',
       allowedHeaders: ['Content-Type', 'Authorization'],
     });
 
