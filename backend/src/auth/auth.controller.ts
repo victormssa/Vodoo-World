@@ -19,12 +19,12 @@ import { LoginDto } from './dto/login.dto';
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Get()
+  @Get('/auth')
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
     return this.authService.findAll(query);
   }
 
-  @Post('signup')
+  @Post('/signup')
   async signUp(
     @Body()
     signUpDto: SignUpDto,
@@ -32,18 +32,18 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
-  @Post('login')
+  @Post('/login')
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     return this.authService.login(loginDto);
   }
 
-  @Get(':id')
+  @Get('/:id')
   async getUser(@Param('id') id: mongoose.Types.ObjectId) {
     const user = await this.authService.findById(id);
     return user;
   }
 
-  @Put(':id')
+  @Put('/:id')
   async updateUser(
     @Param('id')
     id: mongoose.Types.ObjectId,
@@ -53,7 +53,7 @@ export class AuthController {
     return this.authService.updateById(id, user);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   async deleteUser(@Param('id') id: mongoose.Types.ObjectId) {
     const user = await this.authService.deleteById(id);
     return user;
