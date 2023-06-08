@@ -9,12 +9,11 @@ import * as mongoose from 'mongoose';
 import { User } from './schemas/user.schemas';
 import { InjectModel } from '@nestjs/mongoose';
 import { Query } from 'express-serve-static-core';
-
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup-user.dto';
 import { LoginDto } from './dto/login.dto';
-
+import * as http from 'http';
 @Injectable()
 export class AuthService {
   constructor(
@@ -66,22 +65,40 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { username, password } = loginDto;
+    const data = JSON.stringify({ username, password });
 
-    const user = await this.userModel.findOne({ username });
+    const options = {
+      hostname: 'api-vodoo-world.vercel.app',
+      port: 443,
+      path: '/auth/login',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length,
+      },
+    };
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid username or password');
-    }
+    return new Promise<{ token: string }>((resolve, reject) => {
+      const req = http.request(options, (res) => {
+        let responseData = '';
 
-    const isPasswordMatched = await bcrypt.compare(password, user.password);
+        res.on('data', (chunk) => {
+          responseData += chunk;
+        });
 
-    if (!isPasswordMatched) {
-      throw new UnauthorizedException('Invalid username or password');
-    }
+        res.on('end', () => {
+          const { token } = JSON.parse(responseData);
+          resolve({ token });
+        });
+      });
 
-    const token = this.jwtService.sign({ id: user._id });
+      req.on('error', (error) => {
+        reject(error);
+      });
 
-    return { token };
+      req.write(data);
+      req.end();
+    });
   }
 
   async findById(id: Types.ObjectId): Promise<User> {
