@@ -16,7 +16,7 @@ import { Query as ExpressQuery } from 'express-serve-static-core';
 import mongoose from 'mongoose';
 import { LoginDto } from './dto/login.dto';
 
-@Controller('auth')
+@Controller('/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Get()
