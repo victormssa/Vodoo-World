@@ -5,7 +5,7 @@ import * as path from 'path';
 @Injectable()
 export class AppService {
   getOnline(@Res() res: Response): void {
-    const filePath = path.join(__dirname, '..', 'public', 'index.html');
+    const filePath = path.join(__dirname, '..', 'index.html');
     res.sendFile(filePath);
   }
 }
