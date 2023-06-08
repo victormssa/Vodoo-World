@@ -97,18 +97,25 @@ const LoginForm: React.FC = () => {
         setUsername("");
         setErrorMessage(data.message); // Definir a mensagem de erro
       }
-    } catch (error: any | AxiosError) {
+    } catch (error) {
       console.error("Erro ao fazer login:", error);
-
+    
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
+    
         if (axiosError.response) {
-          if (axiosError.response.status === 401) {
+          const { status } = axiosError.response;
+    
+          if (status === 401) {
             setErrorMessage("Usuário ou senha incorretos");
-            setErrorFields(["username", "password"]); // Definir os campos de erro
-          } else if (axiosError.response.status === 0) {
+            setErrorFields(["username", "password"]);
+          } else if (status === 0) {
             setErrorMessage("Erro de CORS");
+          } else {
+            setErrorMessage(`Erro de requisição: ${status}`);
           }
+        } else {
+          setErrorMessage("Erro de requisição desconhecido");
         }
       } else {
         setErrorMessage("Erro ao fazer login");
