@@ -195,10 +195,11 @@ const LoginForm: React.FC = () => {
                   Lembre-se de mim
                 </label>
               </div>
-              {errorMessage && (
+              
+            </div>
+            {errorMessage && (
                 <div className="text-red-500 mt-4">{errorMessage}</div>
               )}
-            </div>
           </div>
 
           <div className="mt-3">
