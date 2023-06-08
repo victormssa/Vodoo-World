@@ -13,7 +13,7 @@ const SignInForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://api-vodoo-world.vercel.app/auth", {
+      const response = await axios.post("http://localhost:3000/auth", {
         username,
         email,
         password,
@@ -48,6 +48,7 @@ const SignInForm = () => {
               className="border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-md p-2 w-full"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -72,6 +73,7 @@ const SignInForm = () => {
               className="border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-md p-2 w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div>

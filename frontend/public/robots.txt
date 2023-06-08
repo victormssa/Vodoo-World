@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Disallow: /signIn
+Disallow: /buscar
+
+Sitemap: https://vodooworld.vercel.app/sitemap.xml

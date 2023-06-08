@@ -79,7 +79,7 @@ const LoginForm: React.FC = () => {
     const newItem: Credentials = { username: username, password };
 
     try {
-      const url = `https://api-vodoo-world.vercel.app/auth/login`;
+      const url = `http://localhost:3000/auth/login`;
       const response = await axios.post(url, newItem);
       const data = response.data;
       localStorage.setItem("token", data.token);
@@ -107,18 +107,18 @@ const LoginForm: React.FC = () => {
           const { status } = axiosError.response;
     
           if (status === 401) {
-            setErrorMessage("Usuário ou senha incorretos");
+            setErrorMessage("Usuário ou senha incorretos.");
             setErrorFields(["username", "password"]);
           } else if (status === 0) {
-            setErrorMessage("Erro de CORS");
+            setErrorMessage("Erro com o CORS.");
           } else {
-            setErrorMessage(`Erro de requisição: ${status}`);
+            setErrorMessage(`Erro de requisição: ${status}.`);
           }
         } else {
-          setErrorMessage("Erro de requisição desconhecido");
+          setErrorMessage("Erro de requisição desconhecido, cheque o suporte.");
         }
       } else {
-        setErrorMessage("Erro ao fazer login");
+        setErrorMessage("Erro ao fazer login.");
       }
     }
   };
@@ -199,7 +199,7 @@ const LoginForm: React.FC = () => {
                   onChange={handleRememberMe}
                 />
               </div>
-              <div className="ml-3 text-sm">
+              <div className="ml-3 mb-3 text-sm">
                 <label
                   htmlFor="remember"
                   className="text-gray-500 hover:text-black dark:hover:text-white  cursor-pointer"
@@ -211,13 +211,13 @@ const LoginForm: React.FC = () => {
             </div>
             
           </div>
-          <div className="flex justify-center mt-2">
+          <div className="flex justify-center mb-3">
             {errorMessage && (
-                  <div className="text-red-500 font-bold">{errorMessage}</div>
+                  <div className="text-[#ff3030] font-bold">{errorMessage}</div>
                 )}
           </div>
 
-          <div className="mt-3">
+          <div className="mt-0">
             <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
               Entrar
             </button>

@@ -13,7 +13,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup-user.dto';
 import { LoginDto } from './dto/login.dto';
-import * as http from 'http';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -65,40 +65,22 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { username, password } = loginDto;
-    const data = JSON.stringify({ username, password });
 
-    const options = {
-      hostname: 'api-vodoo-world.vercel.app',
-      port: 443,
-      path: '/auth/login',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': data.length,
-      },
-    };
+    const user = await this.userModel.findOne({ username });
 
-    return new Promise<{ token: string }>((resolve, reject) => {
-      const req = http.request(options, (res) => {
-        let responseData = '';
+    if (!user) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
 
-        res.on('data', (chunk) => {
-          responseData += chunk;
-        });
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
 
-        res.on('end', () => {
-          const { token } = JSON.parse(responseData);
-          resolve({ token });
-        });
-      });
+    if (!isPasswordMatched) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
 
-      req.on('error', (error) => {
-        reject(error);
-      });
+    const token = this.jwtService.sign({ id: user._id });
 
-      req.write(data);
-      req.end();
-    });
+    return { token };
   }
 
   async findById(id: Types.ObjectId): Promise<User> {
