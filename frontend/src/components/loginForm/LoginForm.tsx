@@ -197,9 +197,12 @@ const LoginForm: React.FC = () => {
               </div>
               
             </div>
+            
+          </div>
+          <div className="flex justify-center mt-2">
             {errorMessage && (
-                <div className="text-red-500 mt-4">{errorMessage}</div>
-              )}
+                  <div className="text-red-500 font-bold">{errorMessage}</div>
+                )}
           </div>
 
           <div className="mt-3">
