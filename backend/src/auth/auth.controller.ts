@@ -19,7 +19,7 @@ import { LoginDto } from './dto/login.dto';
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @Get('/auth')
+  @Get()
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
     return this.authService.findAll(query);
   }
