@@ -18,6 +18,7 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,12 +76,13 @@ const LoginForm: React.FC = () => {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newItem: Credentials = { username: username, password };
+
     try {
       const url = `https://api-vodoo-world.vercel.app/auth/login`;
-
       const response = await axios.post(url, newItem);
       const data = response.data;
       localStorage.setItem("token", data.token);
+
       const token = localStorage.getItem("token");
       if (token) {
         const decodedToken: DecodedToken = jwt_decode(token);
@@ -92,14 +94,22 @@ const LoginForm: React.FC = () => {
       } else {
         setPassword("");
         setUsername("");
-        alert(data.message);
+        setErrorMessage(data.message); // Definir a mensagem de erro
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao fazer login:", error);
+
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage("Usuário ou senha incorretos"); // Definir a mensagem de erro
+        } else if (error.response.status === 0) {
+          setErrorMessage("Erro de CORS"); // Definir a mensagem de erro
+        }
+      } else {
+        setErrorMessage("Erro ao fazer login"); // Definir a mensagem de erro genérica
+      }
     }
   };
-
-
   return (
     <>
       <form
@@ -120,9 +130,7 @@ const LoginForm: React.FC = () => {
         </div>
         <div>
           <h1 className="text-xl font-bold dark:text-gray-200">Bem vindo,</h1>
-          <p className="dark:text-gray-200">
-            Para continuar realize o login.
-          </p>
+          <p className="dark:text-gray-200">Para continuar realize o login.</p>
         </div>
 
         <div className="mt-6">
@@ -187,6 +195,9 @@ const LoginForm: React.FC = () => {
                   Lembre-se de mim
                 </label>
               </div>
+              {errorMessage && (
+                <div className="text-red-500 mt-4">{errorMessage}</div>
+              )}
             </div>
           </div>
 
