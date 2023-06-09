@@ -74,9 +74,13 @@ const SignUpForm = () => {
                 <span className="mx-2">Tutor</span>
               </button>
 
-              <button className="flex justify-center w-full px-6 py-3 mt-4 text-blue-500 border border-blue-500 rounded-lg md:mt-0 md:w-auto md:mx-2 dark:border-blue-400 dark:text-blue-400 focus:outline-none">
+              <button className="flex justify-center w-full px-6 py-3 mt-4 text-blue-500 border border-blue-500 hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:dark:text-white rounded-lg md:mt-0 md:w-auto md:mx-2 hover:dark:border-blue-500 dark:border-white dark:text-blue-400 focus:outline-none">
                 <MdPets className="h-auto w-6" />
                 <span className="mx-2">Pet</span>
+              </button>
+              <button className="flex justify-center w-full px-4 py-3 mt-4 text-blue-500  dark:text-blue-400 hover:text-white hover:dark:text-white rounded-lg md:mt-0 md:w-auto md:mx-2  focus:outline-none">
+                <MdPets className="h-auto w-6" />
+                <span className="mx-2 text-xl font-bold">+</span>
               </button>
             </div>
           </div>
