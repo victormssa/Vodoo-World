@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { MdPets } from "react-icons/md";
 import image from "../../assets/imgs/image0.jpg";
+import wallpaperBlack from '../../assets/imgs/textureBlack.jpg';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
@@ -43,15 +44,15 @@ const SignUpForm = () => {
   };
 
   return (
-    <section className="bg-white dark:bg-[#313131] py-24 lg:pl-[10rem] px-10 flex flex-row ">
-      <div className="w-[50rem] h-auto mr-6 mt-20 lg:block hidden">
+    <section className="bg-white dark:bg-[#313131] pt-24 pr-10 flex flex-row ">
+      <div className="w-[60rem] h-auto mr-6 pl-28 pt-20 pb-12 lg:block hidden">
         <img
           className="object-cover w-full h-full rounded-lg"
           src={image}
           alt="Imagem"
         />
       </div>
-      <form onSubmit={handleSubmit} className="flex items-center w-full max-w-3xl pt-12 mx-0 lg:pr-12 lg:w-3/5">
+      <form onSubmit={handleSubmit} className="flex items-center w-full max-w-3xl pb-5 pt-12 mx-0 lg:pr-12 lg:w-3/5">
         <div className="w-full">
           <h1 className="text-2xl font-semibold tracking-wider text-gray-800 dark:text-white">
             Faça sua conta gratuita agora.
