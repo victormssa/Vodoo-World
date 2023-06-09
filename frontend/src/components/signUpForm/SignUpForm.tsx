@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { MdPets } from "react-icons/md";
 import image from "../../assets/imgs/image0.jpg";
-import wallpaperBlack from '../../assets/imgs/textureBlack.jpg';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
