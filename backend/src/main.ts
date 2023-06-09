@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { CorsOptions } from 'cors';
 
 async function bootstrap() {
   try {
@@ -10,12 +9,21 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.useGlobalPipes(new ValidationPipe());
 
-    const corsOptions: CorsOptions = {
-      origin: true, // Permitir solicitações de qualquer origem
-      credentials: true, // Permitir o envio de cookies e cabeçalhos de autenticação
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permitir todos os métodos HTTP
-    };
-    app.enableCors(corsOptions);
+    app.enableCors(); // Habilitar CORS
+
+    // Definir cabeçalhos 'Access-Control-Allow-Origin' e 'Access-Control-Allow-Methods' na resposta
+    app.use((req, res, next) => {
+      res.header(
+        'Access-Control-Allow-Origin',
+        'https://vodooworld.vercel.app, http://localhost:5173',
+      );
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos permitidos
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept',
+      );
+      next();
+    });
 
     // Inicialização do servidor
     await app.listen(port);
