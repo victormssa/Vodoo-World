@@ -34,7 +34,11 @@ const SignUpForm = () => {
   return (
     <section className="bg-white dark:bg-[#313131] py-24 lg:pl-[10rem] px-10 flex flex-row ">
       <div className="w-[50rem] h-auto mr-6 mt-20 lg:block hidden">
-        <img className="object-cover w-full h-full rounded-lg" src={image} alt="Imagem" />
+        <img
+          className="object-cover w-full h-full rounded-lg"
+          src={image}
+          alt="Imagem"
+        />
       </div>
       <div className="flex items-center w-full max-w-3xl pt-12 mx-0 lg:pr-12 lg:w-3/5">
         <div className="w-full">
@@ -51,7 +55,7 @@ const SignUpForm = () => {
 
           <div className="mt-6">
             <h1 className="text-gray-500 dark:text-gray-300">
-              Escolha a conta para editar os dados.
+              Escolha quais perfis você irá criar.
             </h1>
 
             <div className="mt-3 md:flex md:items-center md:-mx-2">
@@ -151,6 +155,21 @@ const SignUpForm = () => {
                 className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
+
+            <div>
+              <label
+                htmlFor="image"
+                className="block text-sm text-gray-500 dark:text-gray-300 "
+              >
+                Foto de Perfil
+              </label>
+
+              <input
+                type="file"
+                className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:cursor-pointer file:border-none file:rounded-full placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+              />
+            </div>
+            <span></span>
 
             <button className="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
               <span>Cadastre-se </span>
