@@ -26,7 +26,7 @@ const SignUpForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://vodooworld.vercel.app/auth/signup", {
+      const response = await axios.post("https://api-vodoo-world.vercel.app/auth/signup", {
         username,
         email,
         password,

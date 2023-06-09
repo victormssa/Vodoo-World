@@ -77,7 +77,7 @@ const LoginForm: React.FC = () => {
     const newItem: Credentials = { username: username, password };
 
     try {
-      const url = `https://vodooworld.vercel.app/auth/login`;
+      const url = `https://api-vodoo-world.vercel.app/auth/login`;
       const response = await axios.post(url, newItem);
       const data = response.data;
       localStorage.setItem("token", data.token);
