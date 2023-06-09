@@ -1,5 +1,3 @@
-import logoWhite from "../../assets/imgs/logoMinWhite.jpg";
-import logoBlack from "../../assets/imgs/logoMinBlack.jpg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
