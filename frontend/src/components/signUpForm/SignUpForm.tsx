@@ -78,7 +78,7 @@ const SignUpForm = () => {
                 <MdPets className="h-auto w-6" />
                 <span className="mx-2">Pet</span>
               </button>
-              <button className="flex justify-center w-full px-4 py-3 mt-4 text-blue-500  dark:text-blue-400 hover:text-white hover:dark:text-white rounded-lg md:mt-0 md:w-auto md:mx-2  focus:outline-none">
+              <button className="flex justify-center w-full px-2 py-3 mt-4 text-blue-500  dark:text-blue-400 hover:text-white hover:dark:text-white rounded-lg md:mt-0 md:w-auto md:mx-2  focus:outline-none">
                 <MdPets className="h-auto w-6" />
                 <span className="mx-2 text-xl font-bold">+</span>
               </button>
