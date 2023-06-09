@@ -126,17 +126,17 @@ const LoginForm: React.FC = () => {
     <>
       <form
         onSubmit={login}
-        className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg dark:bg-[#3a3a3a]"
+        className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg dark:bg-[#313131]"
       >
         <div className="flex justify-center mx-auto">
           <img
             className="w-auto h-24 dark:hidden block"
-            src={logoWhite}
+   
             alt=""
           />
           <img
             className="w-auto h-24 hidden dark:block"
-            src={logoBlack}
+
             alt=""
           />
         </div>
@@ -218,9 +218,22 @@ const LoginForm: React.FC = () => {
           </div>
 
           <div className="mt-0">
-            <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+            <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 flex justify-between">
               Entrar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 rtl:-scale-x-100"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </button>
+            
           </div>
         </div>
 
@@ -258,7 +271,7 @@ const LoginForm: React.FC = () => {
             Não possui uma conta?{" "}
           </span>
           <a
-            href="/signIn"
+            href="/signup"
             className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
           >
             Cadastre-se

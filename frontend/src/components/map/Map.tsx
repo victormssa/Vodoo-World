@@ -1,7 +1,7 @@
 function Map() {
   return (
     <>
-      <section className="bg-white dark:bg-[#3a3a3a]">
+      <section className="bg-white dark:bg-[#313131]">
         <div className="container px-5 py-4 mx-auto">
           <div className="ml-2"></div>
 
