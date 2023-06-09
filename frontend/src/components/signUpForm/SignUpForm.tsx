@@ -10,6 +10,17 @@ const SignUpForm = () => {
   const [fullname, setFullname] = useState("");
   const [cellphone, setCellphone] = useState("");
   const [error, setError] = useState("");
+  
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+
+    if (newPassword.length < 8) {
+      setError("A senha deve ter pelo menos 8 caracteres.");
+    } else {
+      setError("");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +51,7 @@ const SignUpForm = () => {
           alt="Imagem"
         />
       </div>
-      <div className="flex items-center w-full max-w-3xl pt-12 mx-0 lg:pr-12 lg:w-3/5">
+      <form onSubmit={handleSubmit} className="flex items-center w-full max-w-3xl pt-12 mx-0 lg:pr-12 lg:w-3/5">
         <div className="w-full">
           <h1 className="text-2xl font-semibold tracking-wider text-gray-800 dark:text-white">
             Faça sua conta gratuita agora.
@@ -89,7 +100,7 @@ const SignUpForm = () => {
             </div>
           </div>
 
-          <form className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
             <div>
               <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
                 Nome completo
@@ -97,7 +108,9 @@ const SignUpForm = () => {
               <input
                 type="text"
                 placeholder="Seu nome completo"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={(event) => setFullname(event.target.value)}
+                required
               />
             </div>
 
@@ -108,7 +121,9 @@ const SignUpForm = () => {
               <input
                 type="text"
                 placeholder="exemplonome"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={(event) => setUsername(event.target.value)}
+                required
               />
             </div>
 
@@ -117,9 +132,10 @@ const SignUpForm = () => {
                 Número para contato
               </label>
               <input
-                type="text"
+                type="tel"
                 placeholder="(+55) 71 XXXXX-XXXX"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={(event) => setCellphone(event.target.value)}
               />
             </div>
 
@@ -130,7 +146,9 @@ const SignUpForm = () => {
               <input
                 type="email"
                 placeholder="seuemail@exemplo.com"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={(event) => setEmail(event.target.value)}
+                required
               />
             </div>
 
@@ -141,7 +159,9 @@ const SignUpForm = () => {
               <input
                 type="password"
                 placeholder="●●●●●●●●"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={handlePasswordChange}
+                required
               />
             </div>
 
@@ -152,7 +172,8 @@ const SignUpForm = () => {
               <input
                 type="password"
                 placeholder="●●●●●●●●"
-                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  dark:bg-white  dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                required
               />
             </div>
 
@@ -169,9 +190,14 @@ const SignUpForm = () => {
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:cursor-pointer file:border-none file:rounded-full placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
               />
             </div>
-            <span></span>
+            
+            <div className="flex justify-center mb-3">
+            {error && (
+                  <div className="text-[#ff3030] font-bold">{error}</div>
+                )}
+          </div>
 
-            <button className="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+            <button className="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" >
               <span>Cadastre-se </span>
 
               <svg
@@ -186,10 +212,11 @@ const SignUpForm = () => {
                   clip-rule="evenodd"
                 />
               </svg>
+              
             </button>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </section>
   );
 };
