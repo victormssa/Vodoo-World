@@ -1,15 +1,54 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiSun, FiMoon } from "react-icons/fi";
 import logoWhite from "./../../assets/imgs/logoWhite.jpg";
 import logoBlack from "./../../assets/imgs/logoBlack.jpg";
+import avatarDefault from "./../../assets/imgs/avatar.png";
+import axios from "axios";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
+  const userId = localStorage.getItem("userId");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const checkImageSrc = useCallback(() => {
+    if (!imageSrc) {
+      setImageSrc(avatarDefault);
+    }
+  }, [imageSrc]);
+  
+  const API_URL = "http://localhost:3000/auth";
+  
+  useEffect(() => {
+    const fetchItems = async () => {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+  
+      try {
+        const response = await axios.get(`${API_URL}/${userId}`, config);
+        // Converte o buffer da imagem em um array de bytes
+        const imageBuffer = response.data.avatar.data; // obtém o buffer de imagem do response
+        const blob = new Blob([new Uint8Array(imageBuffer)], {
+          type: "image/png",
+        }); // cria um objeto Blob a partir do buffer
+        const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
+        setImageSrc(imageUrl); // define a URL como a fonte da imagem
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchItems();
+    checkImageSrc();
+  }, [checkImageSrc, userId]);
+  
+
 
   const location = useLocation();
   const isActive = (path: string) => {
@@ -187,6 +226,14 @@ const Header: React.FC = () => {
               >
                 Login
               </Link>
+            </div>
+            <div className="relative w-14 h-14 lg:w-16 sm:h-16">
+                  <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-white bg-green-500"></span>
+                  <img
+                    src={imageSrc}
+                    alt="Avatar do Usúario"
+                    className="w-full h-full rounded-full border lg:border-2"
+                  />
             </div>
           </div>
         </div>

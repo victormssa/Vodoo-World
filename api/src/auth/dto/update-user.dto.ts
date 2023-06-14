@@ -25,4 +25,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   readonly permission: Permission;
+
+  @IsOptional() // Adicione esta linha
+  readonly profileImage: any;
 }

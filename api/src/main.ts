@@ -2,17 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   try {
     const port = 3000; // Porta do servidor
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    app.use(bodyParser.json({ limit: '10mb' }));
     app.useGlobalPipes(new ValidationPipe());
 
     app.enableCors({
       origin: ['https://vodooworld.vercel.app', 'http://localhost:5173'], // Lista de origens permitidas
       methods: 'GET, POST, PUT, DELETE', // Métodos permitidos
-      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', // Cabeçalhos permitidos
+      allowedHeaders:
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization', // Cabeçalhos permitidos
     });
 
     // Inicialização do servidor

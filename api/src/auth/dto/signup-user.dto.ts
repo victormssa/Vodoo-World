@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -31,4 +32,11 @@ export class SignUpDto {
   @IsNotEmpty()
   @IsEnum(Permission, { message: 'Please enter correct permission.' })
   readonly permission: Permission;
+
+  @IsOptional()
+  profileImage: Buffer;
+
+  setProfileImageFromBase64(base64Image: string): void {
+    this.profileImage = Buffer.from(base64Image, 'base64');
+  }
 }

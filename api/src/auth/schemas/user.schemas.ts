@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 
 export enum Permission {
   ADMIN = 'Admin',
@@ -26,6 +27,9 @@ export class User {
 
   @Prop()
   permission: Permission;
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  profileImage: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

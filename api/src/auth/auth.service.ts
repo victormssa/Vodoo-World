@@ -44,8 +44,15 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
-    const { username, fullname, email, password, cellphone, permission } =
-      signUpDto;
+    const {
+      username,
+      fullname,
+      email,
+      password,
+      cellphone,
+      permission,
+      profileImage,
+    } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -56,6 +63,7 @@ export class AuthService {
       password: hashedPassword,
       cellphone,
       permission,
+      profileImage,
     });
 
     const token = this.jwtService.sign({ id: user._id });
@@ -63,7 +71,7 @@ export class AuthService {
     return { token };
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<{ token: string; id: string }> {
     const { username, password } = loginDto;
 
     const user = await this.userModel.findOne({ username });
@@ -77,10 +85,10 @@ export class AuthService {
     if (!isPasswordMatched) {
       throw new UnauthorizedException('Invalid username or password');
     }
-
+    const id = user._id.toString();
     const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return { token, id };
   }
 
   async findById(id: Types.ObjectId): Promise<User> {
