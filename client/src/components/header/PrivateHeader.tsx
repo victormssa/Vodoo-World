@@ -200,30 +200,30 @@ const Header: React.FC = () => {
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
             
-              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.406rem] lg:mr-44">
+              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3rem] lg:mr-44">
                 <Link
                   to="/servicos"
-                  className={`px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
                     "/servicos"
                   )}`}
                 >
-                  <BsCalendarPlus className="mt-1 mr-2 text-lg"></BsCalendarPlus>Agendar Serviço
+                  <BsCalendarPlus className="mt-1 mr-2 lg:text-xl text-lg"></BsCalendarPlus>Agendar Serviço
                 </Link>
                 <Link
                   to="/produtos"
-                  className={`px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
                     "/produtos"
                   )}`}
                 >
-                  <AiOutlineShoppingCart className="mt-1 mr-2 text-xl"></AiOutlineShoppingCart>Produtos
+                  <AiOutlineShoppingCart className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineShoppingCart>Produtos
                 </Link>
                 <Link
                   to="/servicos"
-                  className={`px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
                     "/servicos"
                   )}`}
                 >
-                  <BiUserCircle className="mt-1 mr-2 text-xl"></BiUserCircle>Meu Perfil
+                  <BiUserCircle className="mt-1 mr-2 lg:text-xl text-lg"></BiUserCircle>Meu Perfil
                 </Link>
               </div>
               
