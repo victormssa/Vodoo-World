@@ -3,6 +3,10 @@ import axios from "axios";
 import image from "../../assets/imgs/image0.jpg";
 import avatar from "../../assets/imgs/avatar.png";
 
+interface ErrorResponse {
+  error: string;
+}
+
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
@@ -38,7 +42,7 @@ const SignUpForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://api-vodoo-world.vercel.app/auth/signup", {
+      await axios.post("https://api-vodoo-world.vercel.app/auth/signup", {
         username,
         email,
         password,
@@ -47,8 +51,9 @@ const SignUpForm = () => {
         permission: "Customer",
         profileImage: selectedImage,
       });
-    } catch (err: any) {
-      setError(err.response.data.error);
+    } catch (err: unknown) {
+      const errorResponse = (err as ErrorResponse).error;
+      setError(errorResponse ?? "An error occurred.");
     }
   };
 

@@ -20,11 +20,6 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const isActive = (path: string) => {
-    return location.pathname === path
-      ? "dark:text-white text-gray-800 border-gray-800 dark:border-white lg:border-b-2 border-b-0 font-semibold"
-      : "dark:text-white text-gray-800 font-normal";
-  };
 
   const isActive2 = (path: string) => {
     return location.pathname === path
