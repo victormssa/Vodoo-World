@@ -201,7 +201,7 @@ const Header: React.FC = () => {
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
             
-              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-40">
+              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-10">
               <Link
                   to="/user/home"
                   className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
