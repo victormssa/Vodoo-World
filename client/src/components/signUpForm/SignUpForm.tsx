@@ -7,7 +7,6 @@ interface ErrorResponse {
   error: string;
 }
 
-
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
