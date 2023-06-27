@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import {BsCalendarPlus} from "react-icons/bs";
 import {AiOutlineShoppingCart} from "react-icons/ai";
 import {BiUserCircle} from "react-icons/bi";
+import {AiOutlineHome} from "react-icons/ai"
 import logoWhite from "./../../assets/imgs/logoWhite.jpg";
 import logoBlack from "./../../assets/imgs/logoBlack.jpg";
 import axios, { AxiosRequestConfig } from 'axios';
@@ -54,7 +55,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const isActive = (path: string) => {
     return location.pathname === path
-      ? "dark:text-white text-gray-800 border-gray-800 dark:border-white lg:border-b-2 border-b-0 font-semibold"
+      ? "dark:text-white text-gray-800 border-gray-800 dark:border-white lg:border-b-2 border-b-0  dark:border-t-[#2a2a2a] border-t-[#f5f5f5] font-semibold"
       : "dark:text-white text-gray-800 font-normal";
   };
 
@@ -192,7 +193,7 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu open: "block", Menu closed: "hidden" */}
           <div
-            className={`absolute inset-x-0 z-20 w-full px-6 pt-4 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
+            className={`absolute inset-x-0 z-20 w-full px-6 pt-0 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
               isOpen
                 ? "translate-x-0 opacity-100"
                 : "opacity-0 -translate-x-full"
@@ -200,10 +201,18 @@ const Header: React.FC = () => {
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
             
-              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-44">
+              <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-40">
+              <Link
+                  to="/user/home"
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
+                    "/user/home"
+                  )}`}
+                >
+                  <AiOutlineHome className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineHome>Página Inicial
+                </Link>
                 <Link
                   to="/servicos"
-                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
                     "/servicos"
                   )}`}
                 >
@@ -211,7 +220,7 @@ const Header: React.FC = () => {
                 </Link>
                 <Link
                   to="/produtos"
-                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
                     "/produtos"
                   )}`}
                 >
@@ -219,7 +228,7 @@ const Header: React.FC = () => {
                 </Link>
                 <Link
                   to="/servicos"
-                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] mr-2 flex ${isActive(
+                  className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-b-0 border-b lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
                     "/servicos"
                   )}`}
                 >

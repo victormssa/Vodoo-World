@@ -117,7 +117,7 @@ const Header: React.FC = () => {
               <button
                 onClick={toggleMenu}
                 type="button"
-                className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400 mr-4 ml-4"
+                className="text-black dark:text-gray-200 hover:text-black dark:hover:text-white focus:outline-none focus:text-black dark:focus:text-white mr-4 ml-4"
                 aria-label="toggle menu"
               >
                 <svg
@@ -155,7 +155,7 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu open: "block", Menu closed: "hidden" */}
           <div
-            className={`absolute inset-x-0 z-20 w-full px-6 py-4 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
+            className={`absolute inset-x-0 z-20 w-full px-6 py-0 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
               isOpen
                 ? "translate-x-0 opacity-100"
                 : "opacity-0 -translate-x-full"
@@ -184,7 +184,7 @@ const Header: React.FC = () => {
               </div>
               <Link
                 to="/login"
-                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 border-gray-900 dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 rounded-lg mr-8 flex ${isActive2(
+                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 lg:border-gray-900 lg:dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 border-t rounded-none lg:rounded-lg border-[#f5f5f5] dark:border-[#2a2a2a] lg:mr-8 mr-0 flex ${isActive2(
                   "/login"
                 )}`}
               >
@@ -192,7 +192,7 @@ const Header: React.FC = () => {
               </Link>
               <Link
                 to="/signup"
-                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 border-gray-900 dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 rounded-lg mr-2 flex ${isActive2(
+                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 lg:border-gray-900 lg:dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 border-t rounded-none lg:rounded-lg border-[#f5f5f5] dark:border-[#2a2a2a] lg:mr-2 mr-0 flex ${isActive2(
                   "/signup"
                 )}`}
               >
