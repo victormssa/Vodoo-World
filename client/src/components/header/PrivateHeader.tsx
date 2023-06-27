@@ -26,7 +26,7 @@ const Header: React.FC = () => {
     localStorage.removeItem("_Usr_Id_");
   };
 
-  const API_URL = "https://api-vodoo-world.vercel.app/auth";
+  const API_URL = "https://api-vodooworld.vercel.app/auth";
 
   useEffect(() => {
     const fetchUser = async () => {

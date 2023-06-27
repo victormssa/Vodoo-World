@@ -41,7 +41,7 @@ const SignUpForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("https://api-vodoo-world.vercel.app/auth/signup", {
+      await axios.post("https://api-vodooworld.vercel.app/auth/signup", {
         username,
         email,
         password,
