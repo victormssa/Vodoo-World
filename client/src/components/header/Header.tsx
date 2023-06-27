@@ -1,54 +1,23 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FiSun, FiMoon } from "react-icons/fi";
 import logoWhite from "./../../assets/imgs/logoWhite.jpg";
 import logoBlack from "./../../assets/imgs/logoBlack.jpg";
-import avatarDefault from "./../../assets/imgs/avatar.png";
-import axios from "axios";
+import { FiLogIn } from "react-icons/fi";
+import { HiUserPlus } from "react-icons/hi2";
+import jwt_decode from "jwt-decode";
+
+interface DecodedToken {
+  exp: number;
+}
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState("");
-  const userId = localStorage.getItem("userId");
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const checkImageSrc = useCallback(() => {
-    if (!imageSrc) {
-      setImageSrc(avatarDefault);
-    }
-  }, [imageSrc]);
-  
-  const API_URL = "http://localhost:3000/auth";
-  
-  useEffect(() => {
-    const fetchItems = async () => {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-  
-      try {
-        const response = await axios.get(`${API_URL}/${userId}`, config);
-        // Converte o buffer da imagem em um array de bytes
-        const imageBuffer = response.data.avatar.data; // obtém o buffer de imagem do response
-        const blob = new Blob([new Uint8Array(imageBuffer)], {
-          type: "image/png",
-        }); // cria um objeto Blob a partir do buffer
-        const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
-        setImageSrc(imageUrl); // define a URL como a fonte da imagem
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    fetchItems();
-    checkImageSrc();
-  }, [checkImageSrc, userId]);
-  
-
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isActive = (path: string) => {
@@ -64,34 +33,59 @@ const Header: React.FC = () => {
   };
   
   const [darkMode, setDarkMode] = useState(() => {
-    const isDarkMode = document.cookie.includes("darkMode=true");
-    return isDarkMode || false;
+    const cookieConsent = localStorage.getItem("CC");
+    if (cookieConsent === "true") {
+      const isDarkMode = document.cookie.includes("DM=true");
+      return isDarkMode || false;
+    } else {
+      const isDarkMode = localStorage.getItem("DM") === "true";
+      return isDarkMode || false;
+    }
   });
-
+  
   const handleDarkModeToggle = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-
-    if (newDarkMode) {
-      document.cookie = "darkMode=true; path=/";
+  
+    if (localStorage.getItem("CC") === "true") {
+      if (newDarkMode) {
+        document.cookie = "DM=true; path=/";
+      } else {
+        document.cookie = "DM=false; path=/";
+      }
     } else {
-      document.cookie = "darkMode=false; path=/";
+      if (newDarkMode) {
+        localStorage.setItem("DM", "true");
+      } else {
+        localStorage.setItem("DM", "false");
+      }
     }
   };
-
+  
   useEffect(() => {
-    if (!document.cookie.includes("darkMode")) {
-      document.cookie = "darkMode=true; path=/";
+    if (!localStorage.getItem("CC")) {
+      localStorage.setItem("CC", "true");
     }
   }, []);
-
+  
+  const token = localStorage.getItem("_Usr_Tk_");
+  
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [darkMode]);
+  
+    if (token) {
+      const decodedToken: DecodedToken = jwt_decode(token);
+      const currentTime = Date.now() / 1000;
+  
+      if (decodedToken.exp > currentTime) {
+        navigate("/user/home");
+      }
+    }
+  }, [darkMode, navigate, token]);
 
   return (
     <nav className="fixed top-0 w-full bg-white shadow dark:bg-[#3a3a3a] z-50">
@@ -173,31 +167,6 @@ const Header: React.FC = () => {
             }`}
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
-              <Link
-                to="/sobre"
-                className={`px-3 py-2 text-gray-800 dark:text-white border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 sm:hover:border-b-0  dark:hover:text-white dark:border-white mr-2 ${isActive(
-                  "/sobre"
-                )}`}
-              >
-                Sobre a Vodoo World
-              </Link>
-              <Link
-                to="/servicos"
-                className={`px-3 py-2 text-gray-800 dark:text-white border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 sm:hover:border-b-0  dark:hover:text-white dark:border-white mr-2 ${isActive(
-                  "/servicos"
-                )}`}
-              >
-                Serviços
-              </Link>
-              <Link
-                to="/produtos"
-                className={`px-3 py-2 text-gray-800 dark:text-white border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 sm:hover:border-b-0  dark:hover:text-white dark:border-white mr-2 ${isActive(
-                  "/produtos"
-                )}`}
-              >
-                Produtos
-              </Link>
-              
               <div
                 className={`${
                   darkMode
@@ -220,20 +189,20 @@ const Header: React.FC = () => {
               </div>
               <Link
                 to="/login"
-                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 border-gray-900 dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 rounded-lg mr-2 ${isActive2(
+                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 border-gray-900 dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 rounded-lg mr-8 flex ${isActive2(
                   "/login"
                 )}`}
               >
-                Login
+               <FiLogIn className="mt-1 mr-2"></FiLogIn> Login
               </Link>
-            </div>
-            <div className="relative w-14 h-14 lg:w-16 sm:h-16">
-                  <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-white bg-green-500"></span>
-                  <img
-                    src={imageSrc}
-                    alt="Avatar do Usúario"
-                    className="w-full h-full rounded-full border lg:border-2"
-                  />
+              <Link
+                to="/signup"
+                className={`px-3 py-2 lg:hover:bg-gray-900  sm:hover:bg-none lg:dark:hover:text-black lg:hover:text-white lg:hover:dark:text-gray-900 border-gray-900 dark:border-white lg:dark:hover:bg-white  lg:font-semibold lg:border-2 sm:border-0 rounded-lg mr-2 flex ${isActive2(
+                  "/signup"
+                )}`}
+              >
+              <HiUserPlus className="mt-1 mr-2"></HiUserPlus>  Cadastre-se
+              </Link>
             </div>
           </div>
         </div>

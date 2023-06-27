@@ -34,9 +34,5 @@ export class SignUpDto {
   readonly permission: Permission;
 
   @IsOptional()
-  profileImage: Buffer;
-
-  setProfileImageFromBase64(base64Image: string): void {
-    this.profileImage = Buffer.from(base64Image, 'base64');
-  }
+  profileImage: string;
 }

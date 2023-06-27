@@ -1,0 +1,22 @@
+Functions to develop:
+
+User|
+- Login
+- Logout
+- Insert In Schedule (Itself)
+- Remove Schedule (Itself)
+- Insert Pet (Itself)
+- Remove Pet (Itself)
+- See Products
+----------------------------
+Admin|
+- Login
+- Logout
+- Insert In Schedule
+- Remove Schedule
+- See Users
+- Edit Users
+- Remove Users
+----------------------------
+Not User|
+- See Products

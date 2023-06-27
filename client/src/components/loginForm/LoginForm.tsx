@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
       );
       localStorage.removeItem("checkError");
     }
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("_Usr_Tk_");
     if (token) {
       const decodedToken: DecodedToken = jwt_decode(token);
       const currentTime = Date.now() / 1000;
@@ -77,13 +77,13 @@ const LoginForm: React.FC = () => {
     const newItem: Credentials = { username: username, password };
 
     try {
-      const url = `http://localhost:3000/auth/login`;
+      const url = `https://api-vodoo-world.vercel.app/auth/login`;
       const response = await axios.post(url, newItem);
       const data = response.data;
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.id);
+      localStorage.setItem("_Usr_Tk_", data.token);
+      localStorage.setItem("_Usr_Id_", data.id);
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("_Usr_Tk_");
       if (token) {
         const decodedToken: DecodedToken = jwt_decode(token);
         const currentTime = Date.now() / 1000;
@@ -226,9 +226,9 @@ const LoginForm: React.FC = () => {
                 fill="currentColor"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             </button>

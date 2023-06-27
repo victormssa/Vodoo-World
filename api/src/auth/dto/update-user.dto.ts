@@ -27,5 +27,5 @@ export class UpdateUserDto {
   readonly permission: Permission;
 
   @IsOptional() // Adicione esta linha
-  readonly profileImage: any;
+  readonly profileImage: Buffer;
 }

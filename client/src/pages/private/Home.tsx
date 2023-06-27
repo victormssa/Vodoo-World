@@ -5,11 +5,11 @@ import Footer from '../../components/footer/Footer'
 import usePageTitle from '../../hooks/UsePageTitle';
 import CarouselSlider from '../../components/carouselSlider/CarouselSlider';
 
-function Profile() {
+function Home() {
 
   return (
     <>
-    {usePageTitle("Vodoo World | Profile")}
+    {usePageTitle("Vodoo World")}
       <Header />
       <main className='mt-4 py-20'>
         <HeroHome/>
@@ -21,4 +21,4 @@ function Profile() {
   )
 }
 
-export default Profile;
+export default Home;

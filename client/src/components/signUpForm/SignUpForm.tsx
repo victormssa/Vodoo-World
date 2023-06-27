@@ -26,23 +26,19 @@ const SignUpForm = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // Pega o primeiro arquivo selecionado pelo usuário
-
     if (file) {
       const reader = new FileReader();
-
       reader.onloadend = () => {
         setSelectedImage(reader.result as string); // Armazena a imagem como uma URL de dados (data URL)
       };
-
       reader.readAsDataURL(file); // Lê o conteúdo do arquivo como uma URL de dados
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
+      const response = await axios.post("https://api-vodoo-world.vercel.app/auth/signup", {
         username,
         email,
         password,
@@ -51,9 +47,6 @@ const SignUpForm = () => {
         permission: "Customer",
         profileImage: selectedImage,
       });
-
-      // Se a resposta for bem-sucedida, você pode fazer algo com os dados retornados
-      console.log(response.data);
     } catch (err: any) {
       setError(err.response.data.error);
     }
@@ -241,9 +234,9 @@ const SignUpForm = () => {
                 fill="currentColor"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             </button>
