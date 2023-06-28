@@ -188,7 +188,7 @@ const Header: React.FC = () => {
                   "/login"
                 )}`}
               >
-               <FiLogIn className="mt-1 mr-2"></FiLogIn> Login
+               <FiLogIn className="mt-1 mr-2"></FiLogIn> Entrar
               </Link>
               <Link
                 to="/signup"

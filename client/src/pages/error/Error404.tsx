@@ -1,14 +1,15 @@
-import Header from "../../components/header/Header";
+import Header from "../../components/header/PrivateHeader";
 import Footer from "../../components/footer/Footer";
 import usePageTitle from "../../hooks/UsePageTitle";
+import {FcHighPriority} from "react-icons/fc";
 
 const Error404 = () => {
   return (
     <>
+    <Header></Header>
       {usePageTitle("Erro 404 | Vodoo World")}
-      <Header />
-      <main className="flex flex-col justify-center items-center pt-[18rem] pb-[18rem]">
-        <h1 className="lg:text-6xl text-3xl font-bold mb-4 dark:text-white">🚫 ERRO 404</h1>
+      <main className="flex flex-col justify-center items-center lg:pt-[20%] pt-[40%] lg:pb-[15rem] pb-[20%]">
+        <h1 className="lg:text-6xl text-3xl font-bold mb-4 dark:text-white flex"><FcHighPriority className="mr-2"></FcHighPriority> ERRO 404</h1>
         <p className="text-xl mb-4 dark:text-white text-center">
           Oops, parece que a página que você está procurando não existe...
         </p>

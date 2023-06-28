@@ -4,7 +4,7 @@ import logoBlack from "./../../assets/imgs/logoMinBlack.jpg";
 const Footer: React.FC = () => {
   return (
     <>
-    <footer className="text-gray-600 body-font border-t-[0.08rem] border-gray-200 dark:border-[#0000002e] bg-white dark:bg-[#3a3a3a] relative bottom-0 w-full">
+    <footer className="text-gray-600 body-font border-t-[0.08rem] border-gray-200 dark:border-[#0000002e] bg-white dark:bg-[#3a3a3a] relative bottom-0 w-full pb-24">
     <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
       <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
       <img src={logoWhite} alt="Logo da Vodoo World" className="w-24 mb-5 block dark:hidden" />
