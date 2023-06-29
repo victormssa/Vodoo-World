@@ -20,3 +20,7 @@ Admin|
 ----------------------------
 Not User|
 - See Products
+
+Table Pets:
+
+Name, Age, Species, Breed, Gender, Owner Id, Owner Name.
