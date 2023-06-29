@@ -28,4 +28,4 @@ import { JwtStrategy } from './jwt.strategy';
   providers: [PetsService, JwtStrategy],
   exports: [JwtStrategy, PassportModule],
 })
-export class UserModule {}
+export class PetModule {}
