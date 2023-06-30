@@ -26,7 +26,7 @@ export class PetsService {
 
     const keyword = query.keyword
       ? {
-          fullname: {
+          name: {
             $regex: query.keyword,
             $options: 'i',
           },
@@ -40,7 +40,7 @@ export class PetsService {
     return pets;
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  async signUp(signUpDto: SignUpDto): Promise<void> {
     const { name, age, species, breed, gender, ownerId, ownerName } = signUpDto;
 
     const pet = await this.petModel.create({
@@ -53,9 +53,7 @@ export class PetsService {
       ownerName,
     });
 
-    const token = this.jwtService.sign({ id: pet._id });
-
-    return { token };
+    this.jwtService.sign({ id: pet._id });
   }
 
   async findById(id: Types.ObjectId): Promise<Pet> {
