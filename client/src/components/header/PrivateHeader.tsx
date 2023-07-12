@@ -2,65 +2,77 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { FiLogOut } from "react-icons/fi";
-import {BsCalendarPlus} from "react-icons/bs";
-import {AiOutlineShoppingCart} from "react-icons/ai";
-import {BiUserCircle} from "react-icons/bi";
-import {AiOutlineHome} from "react-icons/ai"
+import { BsCalendarPlus } from "react-icons/bs";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BiUserCircle } from "react-icons/bi";
+import { AiOutlineHome } from "react-icons/ai";
 import { MdPets } from "react-icons/md";
 import logoWhite from "./../../assets/imgs/logoWhite.jpg";
 import logoBlack from "./../../assets/imgs/logoBlack.jpg";
-import axios, { AxiosRequestConfig } from 'axios';
-
+import axios, { AxiosRequestConfig } from "axios";
+import jwtDecode from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const Header: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [fullname, setFullname] = useState();
   const [email, setEmail] = useState();
-  const userId = localStorage.getItem("_Usr_Id_");
   const userIcon = userId;
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  
-  
+
   const logout = () => {
-    localStorage.removeItem("_Usr_Tk_");
-    localStorage.removeItem("_Usr_Id_");
+    localStorage.removeItem("_Usr_tk_");
+    Cookies.remove("_Usr_tk_");
   };
 
   const API_URL = "https://api-vodooworld.vercel.app/auth";
 
   useEffect(() => {
+      const hasCC = localStorage.getItem('CC');
+      const ccValue = hasCC === 'true';
+      let token: any;
+      if (ccValue) {
+        token = Cookies.get('_Usr_tk_');
+      } else {
+        token = localStorage.getItem('_Usr_tk_');
+      }
     const fetchUser = async () => {
-      const token = localStorage.getItem('_Usr_Tk_');
+      if (token) {
+        const decodedToken: any = jwtDecode(token);
+        const userId = decodedToken.id;
+        setUserId(userId);
   
-      const config: AxiosRequestConfig = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
+        if (userId) {
+          const config: AxiosRequestConfig = {
+            headers: { Authorization: `Bearer ${token}` },
+          };
   
-      try {
-        const response = await axios.get(`${API_URL}/${userId}`, config);
-        const { email, fullname } = response.data; // Supondo que os dados de email e nome estão na resposta do servidor
-  
-        setEmail(email);
-        setFullname(fullname);
-      } catch (error) {
-        console.error(error);
+          try {
+            const response = await axios.get(`${API_URL}/${userId}`, config);
+            const { email, fullname } = response.data;
+            setEmail(email);
+            setFullname(fullname);
+          } catch (error) {
+            console.error(error);
+          }
+        }
       }
     };
   
     const checkUserExistence = async (userId: string | null): Promise<void> => {
       try {
-        if (userId !== null) { // Verifica se userId não é nulo
+        if (userId !== null) {
           const response = await fetch(`${API_URL}/${userId}`);
-          
           if (response.ok) {
-            // O usuário existe, não faz nada
+            console.log();
           } else {
-            localStorage.removeItem('_Usr_Tk_');
-            localStorage.removeItem('_Usr_Id_');
+            localStorage.removeItem('_Usr_tk_');
+            Cookies.remove("_Usr_tk_");
             navigate('/home');
           }
         }
@@ -69,10 +81,9 @@ const Header: React.FC = () => {
       }
     };
   
-    checkUserExistence(userId);
     fetchUser();
-  }, [userId, navigate]);
-  
+    checkUserExistence(userId);
+  }, [navigate, userId]);
 
   const location = useLocation();
   const isActive = (path: string) => {
@@ -86,7 +97,7 @@ const Header: React.FC = () => {
       ? "lg:dark:bg-white lg:bg-gray-900 sm:dark:bg-none text-black lg:text-white dark:text-white lg:dark:text-black sm:dark:text-white font-semibold sm:dark:hover:font-white"
       : "dark:text-white sm:text-black font-normal hover:font-semibold sm:dark:hover:font-white";
   };
-  
+
   const [darkMode, setDarkMode] = useState(() => {
     const cookieConsent = localStorage.getItem("CC");
     if (cookieConsent === "true") {
@@ -97,11 +108,11 @@ const Header: React.FC = () => {
       return isDarkMode || false;
     }
   });
-  
+
   const handleDarkModeToggle = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-  
+
     if (localStorage.getItem("CC") === "true") {
       if (newDarkMode) {
         document.cookie = "DM=true; path=/";
@@ -116,21 +127,19 @@ const Header: React.FC = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (!localStorage.getItem("CC")) {
       localStorage.setItem("CC", "true");
     }
   }, []);
-  
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  
-   
   }, [darkMode]);
 
   return (
@@ -139,8 +148,16 @@ const Header: React.FC = () => {
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between">
             <Link to="/user/home" className="flex items-center justify-between">
-              <img className="w-24 h-auto dark:hidden" src={logoWhite} alt="Logo da Vodoo World" />
-              <img className="w-24 h-auto hidden dark:block" src={logoBlack} alt="Logo da Vodoo World" />
+              <img
+                className="w-24 h-auto dark:hidden"
+                src={logoWhite}
+                alt="Logo da Vodoo World"
+              />
+              <img
+                className="w-24 h-auto hidden dark:block"
+                src={logoBlack}
+                alt="Logo da Vodoo World"
+              />
             </Link>
 
             {/* Mobile menu button */}
@@ -166,13 +183,13 @@ const Header: React.FC = () => {
                 </button>
               </div>
               <div className="sm:flex lg:hidden relative w-12 h-12 ml-4 ">
-                  <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
-                  <img
-                    src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
-                    alt="Avatar"
-                    className="w-full h-full rounded-full border-0 lg:border-2 border-[#d8d8d8] dark:border-white"
-                  />
-            </div>
+                <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
+                <img
+                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
+                  alt="Avatar"
+                  className="w-full h-full rounded-full border-0 lg:border-2 border-[#d8d8d8] dark:border-white"
+                />
+              </div>
               <button
                 onClick={toggleMenu}
                 type="button"
@@ -209,7 +226,6 @@ const Header: React.FC = () => {
                   />
                 </svg>
               </button>
-              
             </div>
           </div>
 
@@ -222,15 +238,15 @@ const Header: React.FC = () => {
             }`}
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
-            
               <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-0">
-              <Link
+                <Link
                   to="/user/home"
                   className={`lg:text-lg text-base px-3 py-2 text-gray-800 dark:text-white lg:border-[#3a3a3a] hover:font-semibold lg:hover:border-b-2 lg:border-y-0  border-y lg:hover:bg-white hover:bg-[#f5f5f5] lg:dark:hover:bg-[#3a3a3a] hover:dark:bg-[#2a2a2a] dark:hover:text-white lg:dark:border-white dark:border-[#2a2a2a] border-[#f5f5f5] lg:mr-2 mr-0 flex ${isActive(
                     "/user/home"
                   )}`}
                 >
-                  <AiOutlineHome className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineHome>Página Inicial
+                  <AiOutlineHome className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineHome>
+                  Página Inicial
                 </Link>
                 <Link
                   to="/user/servicos"
@@ -238,7 +254,8 @@ const Header: React.FC = () => {
                     "/user/servicos"
                   )}`}
                 >
-                  <BsCalendarPlus className="mt-1 mr-2 lg:text-xl text-lg"></BsCalendarPlus>Agendar Serviço
+                  <BsCalendarPlus className="mt-1 mr-2 lg:text-xl text-lg"></BsCalendarPlus>
+                  Agendar Serviço
                 </Link>
                 <Link
                   to="/user/produtos"
@@ -246,7 +263,8 @@ const Header: React.FC = () => {
                     "/user/produtos"
                   )}`}
                 >
-                  <AiOutlineShoppingCart className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineShoppingCart>Produtos
+                  <AiOutlineShoppingCart className="mt-1 mr-2 lg:text-xl text-lg"></AiOutlineShoppingCart>
+                  Produtos
                 </Link>
                 <Link
                   to="/user/pets"
@@ -254,7 +272,8 @@ const Header: React.FC = () => {
                     "/user/pets"
                   )}`}
                 >
-                  <MdPets className="mt-1 mr-2 lg:text-xl text-lg"></MdPets>Meus Pets
+                  <MdPets className="mt-1 mr-2 lg:text-xl text-lg"></MdPets>Meus
+                  Pets
                 </Link>
                 <Link
                   to="/user/perfil"
@@ -262,10 +281,11 @@ const Header: React.FC = () => {
                     "/user/perfil"
                   )}`}
                 >
-                  <BiUserCircle className="mt-1 mr-2 lg:text-xl text-lg"></BiUserCircle>Meu Perfil
+                  <BiUserCircle className="mt-1 mr-2 lg:text-xl text-lg"></BiUserCircle>
+                  Meu Perfil
                 </Link>
               </div>
-              
+
               <div
                 className={`${
                   darkMode
@@ -287,17 +307,17 @@ const Header: React.FC = () => {
                 </button>
               </div>
               <div className=" lg:flex hidden relative  w-14 h-14 lg:w-16 sm:h-16 ">
-                  <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
-                  <img
-                    src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
-                    alt="Avatar"
-                    className="w-full h-full rounded-full border lg:border-0 border-[#d8d8d8] dark:border-white"
-                  />
-            </div>
-            <div className="lg:flex hidden flex-col ml-2 mr-8">
-              <p className="text-black dark:text-white font-semibold">{`${fullname}`}</p>
-              <p className="text-black dark:text-white">{`${email}`}</p>
-            </div>
+                <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
+                <img
+                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
+                  alt="Avatar"
+                  className="w-full h-full rounded-full border lg:border-0 border-[#d8d8d8] dark:border-white"
+                />
+              </div>
+              <div className="lg:flex hidden flex-col ml-2 mr-8">
+                <p className="text-black dark:text-white font-semibold">{`${fullname}`}</p>
+                <p className="text-black dark:text-white">{`${email}`}</p>
+              </div>
               <Link
                 to="/"
                 onClick={logout}
@@ -305,10 +325,9 @@ const Header: React.FC = () => {
                   "/login"
                 )}`}
               >
-                <FiLogOut className={"mt-1 mr-2"}/> Sair
+                <FiLogOut className={"mt-1 mr-2"} /> Sair
               </Link>
             </div>
-            
           </div>
         </div>
       </div>

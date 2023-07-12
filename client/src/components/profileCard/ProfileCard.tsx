@@ -15,7 +15,7 @@ function ProfileCard() {
 
     useEffect(() => {
       const fetchUser = async () => {
-        const token = localStorage.getItem('_Usr_Tk_');
+        const token = localStorage.getItem('_Usr_tk_');
     
         const config: AxiosRequestConfig = {
           headers: { Authorization: `Bearer ${token}` },

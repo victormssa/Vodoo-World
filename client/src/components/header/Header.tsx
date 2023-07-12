@@ -63,7 +63,7 @@ const Header: React.FC = () => {
     }
   }, []);
   
-  const token = localStorage.getItem("_Usr_Tk_");
+  const token = localStorage.getItem("_Usr_tk_");
   
   useEffect(() => {
     if (darkMode) {

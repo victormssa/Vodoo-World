@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
+import Cookies from 'js-cookie';
+
 
 interface DecodedToken {
   exp: number;
@@ -11,6 +13,7 @@ interface Credentials {
   username: string;
   password: string;
 }
+
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -27,7 +30,7 @@ const LoginForm: React.FC = () => {
       );
       localStorage.removeItem("checkError");
     }
-    const token = localStorage.getItem("_Usr_Tk_");
+    const token = localStorage.getItem("_Usr_tk_");
     if (token) {
       const decodedToken: DecodedToken = jwt_decode(token);
       const currentTime = Date.now() / 1000;
@@ -80,31 +83,50 @@ const LoginForm: React.FC = () => {
       const url = `https://api-vodooworld.vercel.app/auth/login`;
       const response = await axios.post(url, newItem);
       const data = response.data;
-      localStorage.setItem("_Usr_Tk_", data.token);
-      localStorage.setItem("_Usr_Id_", data.id);
+      
+      const hasCC = localStorage.getItem("CC");
+      const ccValue = hasCC === "true";
 
-      const token = localStorage.getItem("_Usr_Tk_");
-      if (token) {
-        const decodedToken: DecodedToken = jwt_decode(token);
-        const currentTime = Date.now() / 1000;
+      if (ccValue) {
+        Cookies.set("_Usr_tk_", data.token, { secure: true, expires: 1 });
+        const token = Cookies.get("_Usr_tk_");
+        if (token) {
+          const decodedToken: DecodedToken = jwt_decode(token);
+          const currentTime = Date.now() / 1000;
 
-        if (decodedToken.exp > currentTime) {
-          navigate("/user/home");
+          if (decodedToken.exp > currentTime) {
+            navigate("/user/home");
+          }
+        } else {
+          setPassword("");
+          setUsername("");
+          setErrorMessage(data.message);
         }
       } else {
-        setPassword("");
-        setUsername("");
-        setErrorMessage(data.message); // Definir a mensagem de erro
+        localStorage.setItem("_Usr_tk_", data.token);
+        const token = localStorage.getItem("_Usr_tk_");
+        if (token) {
+          const decodedToken: DecodedToken = jwt_decode(token);
+          const currentTime = Date.now() / 1000;
+
+          if (decodedToken.exp > currentTime) {
+            navigate("/user/home");
+          }
+        } else {
+          setPassword("");
+          setUsername("");
+          setErrorMessage(data.message);
+        }
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-    
+
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
-    
+
         if (axiosError.response) {
           const { status } = axiosError.response;
-    
+
           if (status === 401) {
             setErrorMessage("Usuário ou senha incorretos.");
             setErrorFields(["username", "password"]);
@@ -128,16 +150,8 @@ const LoginForm: React.FC = () => {
         className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg dark:bg-[#313131]"
       >
         <div className="flex justify-center mx-auto">
-          <img
-            className="w-auto h-24 dark:hidden block"
-   
-            alt=""
-          />
-          <img
-            className="w-auto h-24 hidden dark:block"
-
-            alt=""
-          />
+          <img className="w-auto h-24 dark:hidden block" alt="" />
+          <img className="w-auto h-24 hidden dark:block" alt="" />
         </div>
         <div>
           <h1 className="text-xl font-bold dark:text-gray-200">Bem vindo,</h1>
@@ -206,14 +220,12 @@ const LoginForm: React.FC = () => {
                   Lembre-se de mim
                 </label>
               </div>
-              
             </div>
-            
           </div>
           <div className="flex justify-center mb-3">
             {errorMessage && (
-                  <div className="text-[#ff3030] font-bold">{errorMessage}</div>
-                )}
+              <div className="text-[#ff3030] font-bold">{errorMessage}</div>
+            )}
           </div>
 
           <div className="mt-0">
@@ -232,7 +244,6 @@ const LoginForm: React.FC = () => {
                 />
               </svg>
             </button>
-            
           </div>
         </div>
 

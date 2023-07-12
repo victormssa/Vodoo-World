@@ -40,7 +40,7 @@ export class PetsService {
     return pets;
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<void> {
+  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { name, age, species, breed, gender, ownerId, ownerName } = signUpDto;
 
     const pet = await this.petModel.create({
@@ -53,7 +53,11 @@ export class PetsService {
       ownerName,
     });
 
+    const token = '...';
+
     this.jwtService.sign({ id: pet._id });
+
+    return { token };
   }
 
   async findById(id: Types.ObjectId): Promise<Pet> {
