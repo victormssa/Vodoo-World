@@ -1,13 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthService } from './auth.service';
 import { User } from './schemas/user.schemas';
 import { SignUpDto } from './dto/signup-user.dto';
@@ -19,17 +11,23 @@ import { LoginDto } from './dto/login.dto';
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
   @Get()
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
     return this.authService.findAll(query);
   }
 
   @Post('/signup')
+  @UseInterceptors(FileInterceptor('profileImage'))
   async signUp(
-    @Body()
-    signUpDto: SignUpDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() signUpDto: SignUpDto,
   ): Promise<{ token: string }> {
-    return this.authService.signUp(signUpDto);
+    const { username, fullname, email, password, cellphone, permission } = signUpDto;
+
+    const profileImage = file ? file.buffer : null; // Access the buffer of the uploaded file, or set it to null if no file was uploaded
+
+    return this.authService.signUp({ username, fullname, email, password, cellphone, permission, profileImage });
   }
 
   @Post('/login')
@@ -45,10 +43,8 @@ export class AuthController {
 
   @Put('/:id')
   async updateUser(
-    @Param('id')
-    id: mongoose.Types.ObjectId,
-    @Body()
-    user: UpdateUserDto,
+    @Param('id') id: mongoose.Types.ObjectId,
+    @Body() user: UpdateUserDto,
   ): Promise<User> {
     return this.authService.updateById(id, user);
   }

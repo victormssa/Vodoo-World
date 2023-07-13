@@ -34,5 +34,5 @@ export class SignUpDto {
   readonly permission: Permission;
 
   @IsOptional()
-  profileImage: string;
+  profileImage: Buffer;
 }

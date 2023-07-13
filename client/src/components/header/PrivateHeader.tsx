@@ -18,6 +18,9 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fullname, setFullname] = useState();
   const [email, setEmail] = useState();
+  const [profileImage, setProfileImage] = useState("");
+
+
   const userIcon = userId;
   const navigate = useNavigate();
 
@@ -33,28 +36,34 @@ const Header: React.FC = () => {
   const API_URL = "https://api-vodooworld.vercel.app/auth";
 
   useEffect(() => {
-      const hasCC = localStorage.getItem('CC');
-      const ccValue = hasCC === 'true';
-      let token: any;
-      if (ccValue) {
-        token = Cookies.get('_Usr_tk_');
-      } else {
-        token = localStorage.getItem('_Usr_tk_');
-      }
+    const hasCC = localStorage.getItem('CC');
+    const ccValue = hasCC === 'true';
+    let token: any;
+    if (ccValue) {
+      token = Cookies.get('_Usr_tk_');
+    } else {
+      token = localStorage.getItem('_Usr_tk_');
+    }
     const fetchUser = async () => {
       if (token) {
         const decodedToken: any = jwtDecode(token);
         const userId = decodedToken.id;
         setUserId(userId);
-  
+
         if (userId) {
           const config: AxiosRequestConfig = {
             headers: { Authorization: `Bearer ${token}` },
           };
-  
+
           try {
             const response = await axios.get(`${API_URL}/${userId}`, config);
             const { email, fullname } = response.data;
+            const imageBuffer = response.data.profileImage.data; // obtém o buffer de imagem do response
+            const blob = new Blob([new Uint8Array(imageBuffer)], {
+              type: "image/png",
+            }); // cria um objeto Blob a partir do buffer
+            const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
+            setProfileImage(imageUrl); // define a URL como a fonte da imagem
             setEmail(email);
             setFullname(fullname);
           } catch (error) {
@@ -63,7 +72,7 @@ const Header: React.FC = () => {
         }
       }
     };
-  
+
     const checkUserExistence = async (userId: string | null): Promise<void> => {
       try {
         if (userId !== null) {
@@ -80,7 +89,7 @@ const Header: React.FC = () => {
         console.error('Ocorreu um erro ao verificar a existência do usuário:', error);
       }
     };
-  
+
     fetchUser();
     checkUserExistence(userId);
   }, [navigate, userId]);
@@ -163,16 +172,14 @@ const Header: React.FC = () => {
             {/* Mobile menu button */}
             <div className="flex lg:hidden">
               <div
-                className={`${
-                  darkMode
-                    ? "h-[2rem] pr-[1rem] bg-[#151515] lg:mr-10 sm:mr-0 lg:mt-0 mt-2 lg:pr-4  border-2 border-white dark:border-white rounded-full"
-                    : " h-[2rem] pr-[1rem] bg-gray-300 lg:mr-10 sm:mr-0 lg:mt-0 mt-2 lg:pr-4  border-2 border-gray-900 dark:border-red-500 rounded-full"
-                }`}
+                className={`${darkMode
+                  ? "h-[2rem] pr-[1rem] bg-[#151515] lg:mr-10 sm:mr-0 lg:mt-0 mt-2 lg:pr-4  border-2 border-white dark:border-white rounded-full"
+                  : " h-[2rem] pr-[1rem] bg-gray-300 lg:mr-10 sm:mr-0 lg:mt-0 mt-2 lg:pr-4  border-2 border-gray-900 dark:border-red-500 rounded-full"
+                  }`}
               >
                 <button
-                  className={` h-[1.75rem] bg-gray-100 dark:bg-[#3a3a3a] duration-700 px-2 rounded-3xl ${
-                    darkMode ? "h-[1.75rem] translate-x-4 bg-gray-600 " : ""
-                  }`}
+                  className={` h-[1.75rem] bg-gray-100 dark:bg-[#3a3a3a] duration-700 px-2 rounded-3xl ${darkMode ? "h-[1.75rem] translate-x-4 bg-gray-600 " : ""
+                    }`}
                   onClick={handleDarkModeToggle}
                 >
                   {darkMode ? (
@@ -185,7 +192,7 @@ const Header: React.FC = () => {
               <div className="sm:flex lg:hidden relative w-12 h-12 ml-4 ">
                 <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
                 <img
-                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
+                  src={profileImage}
                   alt="Avatar"
                   className="w-full h-full rounded-full border-0 lg:border-2 border-[#d8d8d8] dark:border-white"
                 />
@@ -231,11 +238,10 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu open: "block", Menu closed: "hidden" */}
           <div
-            className={`absolute inset-x-0 z-20 w-full px-6 pt-0 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
-              isOpen
-                ? "translate-x-0 opacity-100"
-                : "opacity-0 -translate-x-full"
-            }`}
+            className={`absolute inset-x-0 z-20 w-full px-6 pt-0 bg-white dark:bg-[#3a3a3a] lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${isOpen
+              ? "translate-x-0 opacity-100"
+              : "opacity-0 -translate-x-full"
+              }`}
           >
             <div className="lg:flex-row lg:items-center lg:mx-8 flex flex-col -mx-6 ">
               <div className="lg:flex-row lg:items-center lg:flex lg:mt-[3.1rem] lg:mr-0">
@@ -287,16 +293,14 @@ const Header: React.FC = () => {
               </div>
 
               <div
-                className={`${
-                  darkMode
-                    ? "hidden lg:block ml-6 w-[4.8rem] bg-[#151515] lg:mr-6 sm:mr-0 lg:pr-4  border-2 border-white dark:border-white rounded-full"
-                    : "hidden lg:block ml-6 w-[4.8rem] bg-gray-300 lg:mr-6 sm:mr-0 lg:pr-4  border-2 border-gray-900 dark:border-gray-500 rounded-full"
-                }`}
+                className={`${darkMode
+                  ? "hidden lg:block ml-6 w-[4.8rem] bg-[#151515] lg:mr-6 sm:mr-0 lg:pr-4  border-2 border-white dark:border-white rounded-full"
+                  : "hidden lg:block ml-6 w-[4.8rem] bg-gray-300 lg:mr-6 sm:mr-0 lg:pr-4  border-2 border-gray-900 dark:border-gray-500 rounded-full"
+                  }`}
               >
                 <button
-                  className={`bg-gray-100 dark:bg-[#3a3a3a] duration-700 px-2 py-[0.8rem] rounded-3xl ${
-                    darkMode ? "translate-x-4 bg-gray-600" : ""
-                  }`}
+                  className={`bg-gray-100 dark:bg-[#3a3a3a] duration-700 px-2 py-[0.8rem] rounded-3xl ${darkMode ? "translate-x-4 bg-gray-600" : ""
+                    }`}
                   onClick={handleDarkModeToggle}
                 >
                   {darkMode ? (
@@ -309,7 +313,7 @@ const Header: React.FC = () => {
               <div className=" lg:flex hidden relative  w-14 h-14 lg:w-16 sm:h-16 ">
                 <span className="absolute -bottom-px right-1 lg:w-4 lg:h-4 w-3 h-3 rounded-full border border-[#d8d8d8] dark:border-white bg-green-500"></span>
                 <img
-                  src={`https://api.dicebear.com/6.x/thumbs/svg?seed=${userIcon}`}
+                  src={profileImage}
                   alt="Avatar"
                   className="w-full h-full rounded-full border lg:border-0 border-[#d8d8d8] dark:border-white"
                 />

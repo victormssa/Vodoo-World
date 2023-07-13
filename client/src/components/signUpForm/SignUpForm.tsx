@@ -17,9 +17,13 @@ const SignUpForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fullname, setFullname] = useState("");
+  const [permission, setPermission] = useState("");
   const [cellphone, setCellphone] = useState("");
   const [error, setError] = useState("");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+
+ // const API_URL = "https://api-vodooworld.vercel.app/auth/signup";
+  const API_URL = "http://localhost:3000/auth/signup";
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
@@ -43,33 +47,47 @@ const SignUpForm = () => {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setProfileImage(file);
+    } else {
+      setProfileImage(null);
     }
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      
+
     if (password !== confirmPassword) { // Verificando se as senhas são iguais
       setError("As senhas não coincidem.");
       return;
     }
     try {
-      await axios.post("https://api-vodooworld.vercel.app/auth/signup", {
+      const newItem = {
         username,
+        fullname,
         email,
         password,
-        fullname,
         cellphone,
-        permission: "Customer",
-        profileImage: selectedImage,
+        permission,
+
+      };
+      const formData = new FormData();
+      formData.append("profileImage", profileImage); // Add the image file to the form data
+      formData.append("username", newItem.username);
+      formData.append("fullname", newItem.fullname);
+      formData.append("email", newItem.email);
+      formData.append("password", newItem.password);
+      formData.append("cellphone", newItem.cellphone);
+      formData.append("permission", "Customer");
+
+      await axios.post(API_URL, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+        },
       });
       toast.success('Usuário criado com sucesso, enviando você para o login.');
 
@@ -101,14 +119,14 @@ const SignUpForm = () => {
           <div className="w-full">
             <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
               <div className="w-[10rem] mt-[2rem] h-auto mr-0 pl-0 pt-0 pb-0 lg:block hidden">
-                {selectedImage && (
+                {profileImage && (
                   <img
                     className="object-cover w-[10rem] h-[10rem] rounded-full"
-                    src={selectedImage}
+                    src={profileImage}
                     alt="Imagem"
                   />
                 )}
-                {!selectedImage && (
+                {!profileImage && (
                   <img
                     className="object-cover w-[10rem] h-[10rem] rounded-full"
                     src={avatar}
@@ -203,8 +221,10 @@ const SignUpForm = () => {
 
                 <input
                   type="file"
+                  accept="image/*"
+                  id="meuArquivo"
+                  onChange={handleProfileImageChange}
                   className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:cursor-pointer file:border-none file:rounded-full placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-                  onChange={handleImageChange}
                 />
               </div>
 
